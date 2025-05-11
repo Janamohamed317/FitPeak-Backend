@@ -3,7 +3,6 @@ const helmet = require("helmet");
 const cors = require('cors');
 require("dotenv").config();
 const connectDB = require("./db/connectDB");
-const { notFound, errorHanlder } = require("./middleware/errors");
 const authRoutes = require("./routes/auth.routes");
 const cookieParser = require('cookie-parser');
 
@@ -20,9 +19,7 @@ app.use(cors({ origin: "http://localhost:5175", credentials: true }));
 // Routes
 app.use("/api/v1/auth", authRoutes);
 
-// Error Hanlder Middleware
-app.use(notFound);
-app.use(errorHanlder);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
