@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 const bcryptjs = require('bcryptjs');
 const { User, validateRegisterUser, validateLoginUser } = require('../models/user.model');
 const { generateverificationToken } = require('../utlis/generateverificationToken');
-const { generateTokenAndSetCookie } = require('../utlis/generateTokenAndSetCookie');
+const { generateToken } = require('../utlis/generateToken');
 
 router.post('/signup', asyncHandler(async (req, res) => {
   const { error } = validateRegisterUser(req.body);
@@ -25,12 +25,12 @@ router.post('/signup', asyncHandler(async (req, res) => {
     username,
     password: await bcryptjs.hash(password, 10),
     verificationToken: generateverificationToken(),
-    verificationTokenExpiresAt: Date.now() + 86400000, 
+    verificationTokenExpiresAt: Date.now() + 86400000,
     isVerified: true
   });
 
   await user.save();
-  generateTokenAndSetCookie(res, user._id, user.isAdmin);
+  generateToken(res, user._id);
 
   res.status(201).json({
     success: true,
@@ -49,10 +49,17 @@ router.post('/login', asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Invalid credentials" });
   }
 
-  generateTokenAndSetCookie(res, user._id, user.isAdmin);
+  const token = generateToken(res, user._id);
+
   res.json({
     success: true,
-    user: { ...user._doc, password: undefined }
+    token,
+    user: {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      createdAt: user.createdAt,
+    },
   });
 }));
 

@@ -15,7 +15,7 @@ app.use(cookieParser());
 
 app.use(helmet());
 
-app.use(cors({ origin: "http://localhost:5175", credentials: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
