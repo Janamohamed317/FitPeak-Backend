@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../models/user.model");
 
-const verifyTokenAndUserCheck = async (req, res, next) => {
+const verifyTokenAndUserCheck = async (req, res) => {
 	const token = req.cookies.token;
 
 	if (!token) return res.status(401).json({ success: false, message: "Unauthorized - no token provided" });

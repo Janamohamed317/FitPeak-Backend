@@ -1,7 +1,7 @@
 const  jwt =  require("jsonwebtoken")
 
-module.exports.generateTokenAndSetCookie = (res, userId ,isAdmin) => {
-	const token = jwt.sign({ userId, isAdmin }, process.env.JWT_SECRET, {
+module.exports.generateTokenAndSetCookie = (res, userId) => {
+	const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
 		expiresIn: "7d",
 	});
 
