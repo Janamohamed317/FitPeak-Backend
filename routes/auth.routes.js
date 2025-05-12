@@ -12,12 +12,10 @@ router.post('/signup', asyncHandler(async (req, res) => {
 
   const { email, password, username } = req.body;
 
-  const [userExists, usernameExists] = await Promise.all([
-    User.findOne({ email }),
-    User.findOne({ username })
-  ]);
-
+  const userExists = await User.findOne({ email });
   if (userExists) return res.status(400).json({ message: "User already exists" });
+
+  const usernameExists = await User.findOne({ username });
   if (usernameExists) return res.status(400).json({ message: "Username taken" });
 
   const user = new User({
@@ -37,6 +35,7 @@ router.post('/signup', asyncHandler(async (req, res) => {
     user: { ...user._doc, password: undefined }
   });
 }));
+
 
 
 // Login User
@@ -63,14 +62,6 @@ router.post('/login', asyncHandler(async (req, res) => {
   });
 }));
 
-// Logout User
-router.post('/logout', (req, res) => {
-  res.clearCookie('token').json({ success: true });
-});
 
-// Check Authentication
-router.get('/check-auth', (req, res) => {
-  res.json({ success: true, user: req.user || null });
-});
 
 module.exports = router;
