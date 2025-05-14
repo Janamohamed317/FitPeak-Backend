@@ -4,6 +4,11 @@ const passwordComplexity = require("joi-password-complexity");
 
 const userSchema = new mongoose.Schema(
   {
+    userId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     username: {
       type: String,
       required: true,
@@ -26,13 +31,12 @@ const userSchema = new mongoose.Schema(
       trim: true,
       minlength: 8,
     },
- 
     verificationToken: String,
     verificationTokenExpiresAt: Date,
   },
-
   { timestamps: true }
 );
+
 const User = mongoose.model("User", userSchema);
 
 function validateRegisterUser(obj) {
@@ -51,8 +55,6 @@ function validateLoginUser(obj) {
   });
   return schema.validate(obj);
 }
-
-
 
 module.exports = {
   User,

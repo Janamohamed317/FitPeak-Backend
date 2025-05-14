@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { v4: uuidv4 } = require("uuid"); 
 const { Goal, validateGoal } = require("../models/Goals.model");
 
 router.post("/add", async (req, res) => {
@@ -8,6 +9,7 @@ router.post("/add", async (req, res) => {
 
   try {
     const goal = new Goal({
+      goalId: uuidv4(), 
       userId: req.body.userId,
       goal: req.body.goal,
       progress: req.body.progress,

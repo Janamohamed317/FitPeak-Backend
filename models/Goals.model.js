@@ -3,8 +3,13 @@ const Joi = require("joi");
 
 const goalSchema = new mongoose.Schema(
   {
+    goalId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "User",
       required: true,
     },
@@ -31,7 +36,7 @@ function validateGoal(data) {
   const schema = Joi.object({
     goal: Joi.string().trim().min(3).max(255).required(),
     progress: Joi.number().min(0).max(100).required(),
-    userId: Joi.string().required(), 
+    userId: Joi.string().required(),
   });
 
   return schema.validate(data);
