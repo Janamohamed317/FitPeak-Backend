@@ -5,7 +5,6 @@ const bcryptjs = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 
 const { User, validateRegisterUser, validateLoginUser } = require('../models/user.model');
-const { generateverificationToken } = require('../utlis/generateverificationToken');
 const { generateToken } = require('../utlis/generateToken');
 
 // User Signup
@@ -26,9 +25,6 @@ router.post('/signup', asyncHandler(async (req, res) => {
     email,
     username,
     password: await bcryptjs.hash(password, 10),
-    verificationToken: generateverificationToken(),
-    verificationTokenExpiresAt: Date.now() + 86400000,
-    isVerified: true
   });
 
   await user.save();
