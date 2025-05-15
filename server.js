@@ -5,6 +5,7 @@ require("dotenv").config();
 const connectDB = require("./db/connectDB");
 const authRoutes = require("./routes/auth.routes");
 const goalRoutes = require("./routes/Goals.routes");
+const userProfileRoutes = require("./routes/UserProfile.routes");
 const cookieParser = require('cookie-parser');
 
 const app = express(); 
@@ -21,6 +22,9 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use("/api/v1/auth", authRoutes);
 
 app.use("/api/goals", goalRoutes);
+
+app.use('/api/profile', userProfileRoutes);
+
 
 
 

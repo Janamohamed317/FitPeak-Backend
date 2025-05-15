@@ -27,7 +27,6 @@ const goalSchema = new mongoose.Schema(
       max: 100,
     },
   },
-  { timestamps: true }
 );
 
 const Goal = mongoose.model("Goal", goalSchema);
