@@ -15,10 +15,10 @@ router.post('/signup', asyncHandler(async (req, res) => {
   const { email, password, username } = req.body;
 
   const userExists = await User.findOne({ email });
-  if (userExists) return res.status(400).json({ message: "User already exists" });
+  if (userExists) return res.status(409).json({ message: "Email is already registered" });
 
   const usernameExists = await User.findOne({ username });
-  if (usernameExists) return res.status(400).json({ message: "Username taken" });
+  if (usernameExists) return res.status(409).json({ message: "Username taken" });
 
   const user = new User({
     userId: uuidv4(), 
